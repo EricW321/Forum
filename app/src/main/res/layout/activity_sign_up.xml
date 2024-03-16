@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Username TextInputLayout -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameTextInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="Username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Username Hint TextView -->
+            <TextView
+                android:id="@+id/textViewUsernameHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Username (4-20 characters, no special chars)"
+                android:textColor="#9E9E9E"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/usernameTextInputLayout"
+                app:layout_constraintEnd_toEndOf="@id/usernameTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/usernameTextInputLayout" />
+            <!-- Password TextInputLayout -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:endIconMode="password_toggle"
+                app:layout_constraintEnd_toEndOf="@id/emailTextInputLayout"
+                app:layout_constraintStart_toStartOf="@id/emailTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/textViewEmailHint"
+                android:hint="Password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password Hint TextView -->
+            <TextView
+                android:id="@+id/textViewPasswordHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Password (8+ chars, mix of upper/lower case, numbers, special chars)"
+                android:textColor="#9E9E9E"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/passwordTextInputLayout"
+                app:layout_constraintEnd_toEndOf="@id/passwordTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />
+            <!-- Email TextInputLayout -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTextInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="@id/usernameTextInputLayout"
+                app:layout_constraintStart_toStartOf="@id/usernameTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/textViewUsernameHint"
+                android:hint="Email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Email Hint TextView -->
+            <TextView
+                android:id="@+id/textViewEmailHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Email must be a valid email format"
+                android:textColor="#9E9E9E"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/emailTextInputLayout"
+                app:layout_constraintEnd_toEndOf="@id/emailTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/emailTextInputLayout" />
+            <!-- Verification Code TextInputLayout -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/verificationCodeTextInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/passwordTextInputLayout"
+                app:layout_constraintStart_toStartOf="@id/passwordTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/textViewPasswordHint"
+                android:hint="Verification Code">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextVerificationCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Verification Code Hint TextView -->
+            <TextView
+                android:id="@+id/textViewVerificationHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Enter the code sent to your email"
+                android:textColor="#9E9E9E"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/verificationCodeTextInputLayout"
+                app:layout_constraintEnd_toEndOf="@id/verificationCodeTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/verificationCodeTextInputLayout" />
+
+            <!-- Sign Up Button -->
+            <Button
+                android:id="@+id/buttonSignUp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Sign Up"
+                app:layout_constraintTop_toBottomOf="@id/textViewVerificationHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Send Verification Code Button -->
+            <Button
+                android:id="@+id/buttonSendVerificationCode"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Send Code"
+                app:layout_constraintTop_toBottomOf="@id/buttonSignUp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Verify Code Button -->
+            <Button
+                android:id="@+id/buttonVerifyCode"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Verify Code"
+                app:layout_constraintTop_toBottomOf="@id/buttonSendVerificationCode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

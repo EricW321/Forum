@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Forum</string>
+    <string name="app_name">Google Map</string>
+    <!-- Strings for the Sign-Up Screen -->
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="send_code">Send Code</string>
+    <string name="verification_code">Verification Code</string>
+    <!-- Strings for the Welcome Screen -->
+    <string name="welcome_message">Welcome to the App!</string>
+    <string name="login">Login</string>
+    <string name="logo">Logo</string>
+    <string name="forgot_password">forgot_password</string>
+    <string name="welcome_messages">Welcome, %1$s!</string>
+    <string name="logo_description">Logo description</string>
+
 </resources>
