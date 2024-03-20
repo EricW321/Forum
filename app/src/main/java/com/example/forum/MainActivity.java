@@ -63,12 +63,49 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ThreadActivity.class);
                 String categoryName = categories.get(position);
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("category_id", getCategoryID(categoryName));
                 intent.putExtra("category_name", categoryName);
+                intent.putExtra("category_id",getCategoryID(categoryName));
                 startActivity(intent);
             }
         });
 
         fetchData();
+    }
+
+    private int getCategoryID(String name){
+        int id;
+        switch (name){
+            case "Anime":
+                id=1;
+                break;
+            case "Game":
+                id=2;
+                break;
+            case "VTuber":
+                id=3;
+                break;
+            case "Computer Science":
+                id=4;
+                break;
+            case "Business":
+                id=5;
+                break;
+            case "Social":
+                id=6;
+                break;
+            case "General":
+                id=7;
+                break;
+            case "My Threads":
+                id=8;
+                break;
+            default:
+                id=0;
+        }
+        return id;
     }
 
     private void fetchData() {

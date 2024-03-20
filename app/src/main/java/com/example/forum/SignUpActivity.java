@@ -185,11 +185,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        // Password restriction: At least 8 characters with a mix of letters, numbers, and at least one special character
-        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {
-            Toast.makeText(this, "Password must be at least 8 characters long and include a mix of uppercase and lowercase letters, numbers, and special characters (@#$%^&+=).", Toast.LENGTH_LONG).show();
-            return;
-        }
+        //password
 
         if (!isVerified) {
             Toast.makeText(this, "You need to verify your email address before signing up.", Toast.LENGTH_SHORT).show();
