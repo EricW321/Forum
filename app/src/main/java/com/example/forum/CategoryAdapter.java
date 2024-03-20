@@ -46,13 +46,10 @@ public class CategoryAdapter extends BaseAdapter {
         String categoryName = categories.get(position);
         textView.setText(categoryName);
 
-        // Here you'll set the image for the category. For example:
-        // This is a placeholder. You'll need to implement your own way to map category names to images.
         int imageId = context.getResources().getIdentifier("drawable/" + categoryName.toLowerCase(), null, context.getPackageName());
         if (imageId > 0) {
             imageView.setImageResource(imageId);
         } else {
-            // Default image if not found
             imageView.setImageResource(R.drawable.uwindsor_logo);
         }
 
