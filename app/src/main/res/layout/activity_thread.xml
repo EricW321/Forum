@@ -1,44 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/threadbg">
 
+    <!-- Category Header -->
     <TextView
         android:id="@+id/categoryHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="Category Name"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Topic Label -->
+    <TextView
+        android:id="@+id/topicLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Topic"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refreshButton" /> <!-- Keep below category header -->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/newThreadButton"
-            android:layout_width="143dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@android:drawable/ic_input_add" />
+    <!-- Refresh Button -->
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Refresh"
+        app:layout_constraintStart_toEndOf="@id/topicLabel"
+        app:layout_constraintTop_toBottomOf="@id/categoryHeader"
+        android:layout_marginStart="200dp"/> <!-- Align to the end of the Topic Label with margin -->
 
-        <Button
-            android:id="@+id/refreshButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Refresh" />
-
-    </LinearLayout>
-
+    <!-- RecyclerView for Threads -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/threadsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topicLabel"
+        app:layout_constraintBottom_toTopOf="@id/newThreadButton"
+        android:padding="@dimen/cardview_default_radius"/>
 
-</LinearLayout>
+    <!-- Dotted Line Separator -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/dotted_line"
+        app:layout_constraintTop_toBottomOf="@id/threadsRecycler" />
+
+    <!-- Floating Action Button for adding new threads -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newThreadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
