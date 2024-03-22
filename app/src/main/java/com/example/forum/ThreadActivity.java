@@ -54,7 +54,7 @@ public class ThreadActivity extends AppCompatActivity {
 
         threadList = new ArrayList<>();
         fetchThreads(id);
-        adapter = new ThreadAdapter(threadList);
+        adapter = new ThreadAdapter(threadList, ThreadActivity.this);
         recyclerView.setAdapter(adapter);
 
         newThread=findViewById(R.id.newThreadButton);
@@ -67,6 +67,8 @@ public class ThreadActivity extends AppCompatActivity {
             }
         });
 
+
+
         refresh=findViewById(R.id.refreshButton);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,8 @@ public class ThreadActivity extends AppCompatActivity {
                 fetchThreads(id);
             }
         });
+
+
 
 
     }
@@ -94,8 +98,9 @@ public class ThreadActivity extends AppCompatActivity {
                                 String title = obj.getString("title");
                                 String userName = obj.getString("user_name");
                                 String threadTime = obj.getString("thread_time");
+                                int thread_id = obj.getInt("thread_id");
 
-                                ThreadItem thread = new ThreadItem(title, userName, threadTime);
+                                ThreadItem thread = new ThreadItem(title, userName, threadTime, thread_id);
                                 threadList.add(thread);
                             }
                             Log.d("ThreadActivity", "Number of items in threadList: " + threadList.size());

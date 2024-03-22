@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Forum"
         tools:targetApi="31">
         <activity
+            android:name=".ThreadDetail"
+            android:exported="false" />
+        <activity
             android:name=".NewThread"
             android:exported="false" />
         <activity

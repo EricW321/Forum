@@ -1,5 +1,7 @@
 package com.example.forum;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,12 @@ import java.util.List;
 public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder> {
 
     private List<ThreadItem> threadList;
+    Context context;
 
-    public ThreadAdapter(List<ThreadItem> threadList) {
+    public ThreadAdapter(List<ThreadItem> threadList, Context context) {
+
         this.threadList = threadList;
+        this.context=context;
     }
 
     @NonNull
@@ -29,6 +34,17 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
         holder.threadTitle.setText(thread.getTitle());
         holder.threadUser.setText(thread.getUserName());
         holder.threadDate.setText(thread.getThreadTime());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int thread_id=thread.getThread_id();
+                Intent intent=new Intent(context.getApplicationContext(), ThreadDetail.class);
+                intent.putExtra("thread_id",thread_id);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
