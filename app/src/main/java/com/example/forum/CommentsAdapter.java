@@ -1,9 +1,11 @@
 package com.example.forum;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,12 +15,19 @@ import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
 
+    public interface OnCommentClickListener {
+        void onCommentClick(int parentCommentId, String parentCommentName);
+    }
+    private OnCommentClickListener listener;
+
     private List<CommentDetail> commentList;
     Context context;
+    public int parent_comment_id;
 
-    public CommentsAdapter(List<CommentDetail> commentList, Context context){
+    public CommentsAdapter(List<CommentDetail> commentList, Context context, OnCommentClickListener listener){
         this.commentList=commentList;
         this.context=context;
+        this.listener=listener;
     }
     @NonNull
     @Override
@@ -40,6 +49,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
 
         holder.username_tv.setText(comment.getUser_name());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int parentCommentID=comment.getComment_id();
+                String parentCommentName=comment.getUser_name();
+                listener.onCommentClick(parentCommentID,parentCommentName);
+
+            }
+        });
     }
 
     @Override

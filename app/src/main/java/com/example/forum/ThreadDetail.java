@@ -4,28 +4,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ThreadDetail extends AppCompatActivity {
+public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.OnCommentClickListener {
     public String title;
     public String thread_content;
     public String thread_time;
     public String user_name;
+    public String parent_comment_name;
+    public int parent_comment_id;
 
     private List<CommentDetail> commentsList;
     private CommentsAdapter adapter;
@@ -38,6 +50,12 @@ public class ThreadDetail extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    Button comment_btn;
+
+    Button refresh_btn;
+
+    EditText comment_edittext;
+
 
 
 
@@ -45,6 +63,10 @@ public class ThreadDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thread_detail);
+        parent_comment_id= -1;
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String studentId = sharedPreferences.getString("userId", "defaultStudentId");
+        int user_id = Integer.parseInt(studentId);
 
         int thread_id=getIntent().getIntExtra("thread_id",1);
         recyclerView=findViewById(R.id.comments_list);
@@ -57,8 +79,90 @@ public class ThreadDetail extends AppCompatActivity {
         fetchThreadDetail(thread_id);
         fetchComments(thread_id);
 
-        adapter = new CommentsAdapter(commentsList,ThreadDetail.this);
+        adapter = new CommentsAdapter(commentsList,ThreadDetail.this,this);
         recyclerView.setAdapter(adapter);
+
+        comment_btn=findViewById(R.id.button_comment);
+        comment_edittext=findViewById(R.id.editText_comment);
+        comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment_content=comment_edittext.getText().toString();
+                postComment(user_id,thread_id,parent_comment_id,comment_content);
+                parent_comment_id=-1;
+            }
+        });
+
+        thread_content_tv=findViewById(R.id.thread_content);
+
+        thread_content_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comment_edittext.setHint("");
+                comment_edittext.setText("");
+                parent_comment_id=-1;
+            }
+        });
+
+
+
+
+        refresh_btn=findViewById(R.id.button_refresh);
+        refresh_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentsList.clear();
+                fetchComments(thread_id);
+            }
+        });
+    }
+
+
+
+    public void reorderComments() {
+        Map<Integer, List<CommentDetail>> childrenMap = new HashMap<>();
+
+        // Build the map for parent-child relationships
+        for (CommentDetail comment : commentsList) {
+            int parentId = comment.getParent_comment_id();
+            List<CommentDetail> children = childrenMap.get(parentId);
+            if (children == null) {
+                children = new ArrayList<>();
+                childrenMap.put(parentId, children);
+            }
+            children.add(comment);
+        }
+
+        List<CommentDetail> orderedComments = new ArrayList<>();
+        for (CommentDetail comment : commentsList) {
+            if (comment.getParent_comment_id() == -1) {
+                addCommentAndChildren(comment, orderedComments, childrenMap);
+            }
+        }
+
+        commentsList.clear();
+        commentsList.addAll(orderedComments);
+    }
+
+    private void addCommentAndChildren(CommentDetail comment, List<CommentDetail> orderedComments, Map<Integer, List<CommentDetail>> childrenMap) {
+        orderedComments.add(comment);
+        List<CommentDetail> children = childrenMap.get(comment.getComment_id());
+        if (children != null) {
+            for (CommentDetail child : children) {
+                addCommentAndChildren(child, orderedComments, childrenMap);
+            }
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onCommentClick(int parentCommentId, String parentCommentName){
+        this.parent_comment_id = parentCommentId;
+        this.parent_comment_name=parentCommentName;
+        comment_edittext.setHint("reply @"+parent_comment_name);
     }
 
     private void fetchThreadDetail(int thread_id) {
@@ -136,8 +240,11 @@ public class ThreadDetail extends AppCompatActivity {
                                 String comment_time = obj.getString("comment_time");
 
                                 CommentDetail comment = new CommentDetail(user_name,comment_time,comment_content,parent_user_name,user_id,comment_id,parent_comment_id);
+
+
                                 commentsList.add(comment);
                             }
+                            reorderComments();
                             adapter.notifyDataSetChanged();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -151,6 +258,45 @@ public class ThreadDetail extends AppCompatActivity {
         });
 
         queue.add(stringRequest);
+    }
+
+    private void postComment(int user_id, int thread_id, int parent_comment_id, String comment_content){
+        String url="https://forum-node.vercel.app/sendComment";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("user_id", user_id);
+            jsonBody.put("thread_id", thread_id);
+            if(parent_comment_id<0){
+                jsonBody.put("parent_comment_id", null);
+            }
+            else {
+                jsonBody.put("parent_comment_id",parent_comment_id);
+            }
+
+            jsonBody.put("comment_content", comment_content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,url,jsonBody, response -> {
+            Toast.makeText(ThreadDetail.this, "new comment submit successfully", Toast.LENGTH_SHORT).show();
+            comment_edittext.setText("");
+            commentsList.clear();
+            fetchComments(thread_id);
+        },error -> {
+            Toast.makeText(ThreadDetail.this, "Submit failed", Toast.LENGTH_SHORT).show();
+            Log.e("Error.Response", "Error: ", error);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
     }
 
 }
