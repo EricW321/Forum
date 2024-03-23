@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/thread_item_background">
 
     <!-- Thread Title -->
     <TextView
@@ -20,9 +21,8 @@
         android:id="@+id/threadContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
         android:layout_marginBottom="4dp"/>
 
     <!-- Thread User and Date -->
@@ -36,14 +36,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/threadDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@android:color/black"
             android:layout_marginStart="8dp"/>
 
@@ -51,16 +51,10 @@
             android:id="@+id/threadTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@android:color/black"
             android:layout_marginStart="8dp"/>
-    </LinearLayout>
 
-    <!-- Dotted Line Separator -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/dotted_line"/>
+    </LinearLayout>
 
 </LinearLayout>

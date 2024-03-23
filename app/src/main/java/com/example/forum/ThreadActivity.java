@@ -34,7 +34,7 @@ public class ThreadActivity extends AppCompatActivity {
     private List<ThreadItem> threadList;
 
     FloatingActionButton newThread;
-    Button refresh;
+    Button refresh, backBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +76,23 @@ public class ThreadActivity extends AppCompatActivity {
             }
         });
 
-
+        backBtn = findViewById(R.id.backButton);
+        // Set click listener for the back button
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Call onBackPressed() when the back button is clicked
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        // Handle back button press here
+        // Typically, you would want to navigate back to the previous activity
+        super.onBackPressed(); // This line ensures the default behavior of the back button (navigating back)
+    }
+
 
     private void fetchThreads(int categoryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
