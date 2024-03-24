@@ -15,5 +15,12 @@
     <string name="welcome_messages">Welcome, %1$s!</string>
     <string name="logo_description">Logo description</string>
     <string name="btn_category">Category</string>
+    <string name="enter_thread_title">Enter thread title</string>
+    <string name="title">Title</string>
+    <string name="enter_thread_content">Enter Thread Content</string>
+    <string name="content">Content ....</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="post_a_new_thread">Post a New Thread</string>
 
 </resources>

@@ -1,80 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/new_tread"
     tools:context=".NewThread">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/post_a_new_thread"
+        android:fontFamily="serif"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:text="@string/enter_thread_title"
+        android:textColor="@android:color/black"
+        android:fontFamily="serif"
+        android:textSize="18sp"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editTextNewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:background="@color/soft_blue"
+        android:padding="16dp"
+        android:gravity="top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_thread_content"
+        android:textColor="@android:color/black"
+        android:fontFamily="serif"
+        android:textSize="18sp"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider2"/>
+
+    <EditText
+        android:id="@+id/editTextNewContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/content"
+        android:minLines="5"
+        android:padding="16dp"
+        android:background="@color/soft_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewContent"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/buttonSubmitThread"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Post a new thread" />
+            android:fontFamily="serif"
+            android:layout_weight="1"
+            android:text="@string/submit"
+            android:textColor="@android:color/white"/>
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/buttonCancelThread"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Enter thread title" />
-
-        <EditText
-            android:id="@+id/editTextNewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="113dp"
-            android:ems="10"
-            android:hint="Title"
-            android:inputType="text" />
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter thread content" />
-
-        <EditText
-            android:id="@+id/editTextNewContent"
-            android:layout_width="match_parent"
-            android:layout_height="405dp"
-            android:ems="10"
-            android:hint="Content"
-            android:inputType="text" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonSubmitThread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Submit" />
-
-            <Button
-                android:id="@+id/buttonCancelThread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancel" />
-        </LinearLayout>
+            android:fontFamily="serif"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

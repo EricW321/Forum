@@ -13,6 +13,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:fontFamily="serif"
+        android:textColor="@android:color/black"
         android:padding="8dp"
         android:text="Category Name"
         android:textSize="24sp"
@@ -21,32 +23,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Topic Label -->
-    <TextView
-        android:id="@+id/topicLabel"
-        android:layout_width="wrap_content"
+    <!-- Topic Layout -->
+    <LinearLayout
+        android:id="@+id/topicLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Topic"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/categoryHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="16dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/refreshButton" /> <!-- Keep below category header -->
+        android:paddingBottom="8dp">
 
-    <!-- Refresh Button -->
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:text="Refresh"
-        app:layout_constraintStart_toEndOf="@id/topicLabel"
-        app:layout_constraintTop_toBottomOf="@id/categoryHeader"
-        android:layout_marginStart="200dp"/> <!-- Align to the end of the Topic Label with margin -->
+        <!-- Topic Label -->
+        <TextView
+            android:id="@+id/topicLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Topic"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
 
+        <!-- Refresh Button -->
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:fontFamily="serif"
+            android:text="Refresh"/>
+
+    </LinearLayout>
 
     <!-- RecyclerView for Threads -->
 
@@ -54,6 +65,7 @@
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:fontFamily="serif"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
         android:text="Back to main page"
@@ -68,7 +80,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topicLabel"
+        app:layout_constraintTop_toBottomOf="@id/topicLayout"
         app:layout_constraintBottom_toTopOf="@id/newThreadButton"
         android:padding="@dimen/cardview_default_radius"/>
 
