@@ -1,6 +1,7 @@
 package com.example.forum;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,23 +40,26 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public void onBindViewHolder(@NonNull CommentsAdapter.CommentViewHolder holder, int position) {
         CommentDetail comment=commentList.get(position);
-        holder.content_tv.setText(comment.getComment_content());
-        holder.time_tv.setText(comment.getComment_time());
+        //holder.content_tv.setText(comment.getComment_content());
+        //holder.time_tv.setText(comment.getComment_time());
         if(comment.getParent_user_name().equals("")){
-            holder.reply_tv.setText("");
+            //holder.reply_tv.setText("");
+            holder.content_tv.setText(comment.getComment_content());
         }
         else {
-            holder.reply_tv.setText("reply @"+comment.getParent_user_name());
+            //holder.reply_tv.setText("reply @"+comment.getParent_user_name());
+            holder.content_tv.setText("reply @"+comment.getParent_user_name() + ": " +comment.getComment_content());
+            holder.content_tv.setBackgroundColor(Color.parseColor("#D3D3D3"));
+
         }
 
-        holder.username_tv.setText(comment.getUser_name());
+        holder.username_tv.setText("Post by " + comment.getUser_name() + " at " + comment.getComment_time());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int parentCommentID=comment.getComment_id();
                 String parentCommentName=comment.getUser_name();
                 listener.onCommentClick(parentCommentID,parentCommentName);
-
             }
         });
     }
@@ -71,11 +75,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             username_tv=itemView.findViewById(R.id.comment_username);
-            time_tv=itemView.findViewById(R.id.comment_time);
-            reply_tv=itemView.findViewById(R.id.comment_reply);
+            //time_tv=itemView.findViewById(R.id.comment_time);
+            //reply_tv=itemView.findViewById(R.id.comment_reply);
             content_tv=itemView.findViewById(R.id.comment_content);
-
-
         }
     }
 }
