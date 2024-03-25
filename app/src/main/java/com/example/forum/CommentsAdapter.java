@@ -55,7 +55,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 int parentCommentID=comment.getComment_id();
                 String parentCommentName=comment.getUser_name();
                 listener.onCommentClick(parentCommentID,parentCommentName);
-
             }
         });
     }
@@ -74,8 +73,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             time_tv=itemView.findViewById(R.id.comment_time);
             reply_tv=itemView.findViewById(R.id.comment_reply);
             content_tv=itemView.findViewById(R.id.comment_content);
-
-
         }
     }
 }

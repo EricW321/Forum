@@ -3,8 +3,10 @@ package com.example.forum;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.SharedPreferences;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,10 +28,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.OnCommentClickListener {
     public String title;
@@ -55,10 +61,6 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
     Button refresh_btn;
 
     EditText comment_edittext;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +105,6 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
                 parent_comment_id=-1;
             }
         });
-
-
-
 
         refresh_btn=findViewById(R.id.button_refresh);
         refresh_btn.setOnClickListener(new View.OnClickListener() {
@@ -154,10 +153,6 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
         }
     }
 
-
-
-
-
     @Override
     public void onCommentClick(int parentCommentId, String parentCommentName){
         this.parent_comment_id = parentCommentId;
@@ -189,9 +184,13 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
 
                                 title_tv.setText(title);
                                 thread_content_tv.setText(thread_content);
-                                thread_user_tv.setText(user_name);
-                                thread_time_tv.setText(thread_time);
-
+                                thread_user_tv.setText("By " + user_name);
+                                String formattedTime = convertISOTimeToSimpleFormat(thread_time);
+                                if (formattedTime != null) {
+                                    thread_time_tv.setText(formattedTime);
+                                } else {
+                                    thread_time_tv.setText(thread_time);
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -299,4 +298,17 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
         queue.add(jsonObjectRequest);
     }
 
+    private String convertISOTimeToSimpleFormat(String isoTime) {
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            Date date = isoFormat.parse(isoTime);
+            return simpleFormat.format(date);
+        } catch (ParseException | java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
