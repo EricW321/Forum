@@ -182,12 +182,12 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
                                 thread_user_tv=findViewById(R.id.thread_user);
                                 thread_time_tv=findViewById(R.id.thread_time);
 
-                                title_tv.setText(title);
+                                title_tv.setText(" " + title);
                                 thread_content_tv.setText(thread_content);
-                                thread_user_tv.setText("By " + user_name);
+                                thread_user_tv.setText("By " + user_name + " ");
                                 String formattedTime = convertISOTimeToSimpleFormat(thread_time);
                                 if (formattedTime != null) {
-                                    thread_time_tv.setText(formattedTime);
+                                    thread_time_tv.setText(" " + formattedTime);
                                 } else {
                                     thread_time_tv.setText(thread_time);
                                 }
