@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ThreadActivity extends AppCompatActivity {
 
@@ -108,7 +113,7 @@ public class ThreadActivity extends AppCompatActivity {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 String title = obj.getString("title");
                                 String userName = obj.getString("user_name");
-                                String threadTime = obj.getString("thread_time");
+                                String threadTime = convertISOTimeToSimpleFormat(obj.getString("thread_time"));
                                 int threadID=obj.getInt("thread_id");
 
                                 ThreadItem thread = new ThreadItem(title, userName, threadTime,threadID);
@@ -128,6 +133,20 @@ public class ThreadActivity extends AppCompatActivity {
         });
 
         queue.add(stringRequest);
+    }
+
+    private String convertISOTimeToSimpleFormat(String isoTime) {
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            Date date = isoFormat.parse(isoTime);
+            return simpleFormat.format(date);
+        } catch (ParseException | java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
