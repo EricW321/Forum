@@ -45,6 +45,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         if(comment.getParent_user_name().equals("")){
             //holder.reply_tv.setText("");
             holder.content_tv.setText(comment.getComment_content());
+            holder.content_tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         else {
             //holder.reply_tv.setText("reply @"+comment.getParent_user_name());
