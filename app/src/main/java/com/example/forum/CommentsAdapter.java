@@ -49,7 +49,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
         else {
             //holder.reply_tv.setText("reply @"+comment.getParent_user_name());
-            holder.content_tv.setText("reply @"+comment.getParent_user_name() + ": " +comment.getComment_content());
+            holder.content_tv.setText("     reply @"+comment.getParent_user_name() + ": " +comment.getComment_content());
             holder.content_tv.setBackgroundColor(Color.parseColor("#D3D3D3"));
 
         }
