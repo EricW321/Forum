@@ -99,7 +99,7 @@ public class ThreadDetail extends AppCompatActivity implements CommentsAdapter.O
         thread_content_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comment_edittext.setHint("");
+                comment_edittext.setHint("Add a comment...");
                 comment_edittext.setText("");
                 parent_comment_id=-1;
             }

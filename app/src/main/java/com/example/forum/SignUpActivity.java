@@ -185,6 +185,11 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        if(!email.endsWith("@uwindsor.ca")){
+            Toast.makeText(this,"You must register with uwindsor email",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //password
 
         if (!isVerified) {
