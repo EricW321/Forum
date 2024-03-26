@@ -5,10 +5,13 @@ public class ThreadItem {
     private String userName;
     private String threadTime;
 
-    public ThreadItem(String title, String userName, String threadTime) {
+    private int thread_id;
+
+    public ThreadItem(String title, String userName, String threadTime, int thread_id) {
         this.title = title;
         this.userName = userName;
         this.threadTime = threadTime;
+        this.thread_id=thread_id;
     }
 
     public String getTitle() {
@@ -22,4 +25,5 @@ public class ThreadItem {
     public String getThreadTime() {
         return threadTime;
     }
+    public int getThread_id(){return thread_id;}
 }

@@ -62,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ThreadActivity.class);
-                String categoryName = categories.get(position);
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("category_id", getCategoryID(categoryName));
-                intent.putExtra("category_name", categoryName);
-                intent.putExtra("category_id",getCategoryID(categoryName));
+                if (position == 7) {
+                    intent.putExtra("display_mode", "my_threads");
+                } else {
+                    String categoryName = categories.get(position);
+                    int categoryId = getCategoryID(categoryName);
+                    intent.putExtra("category_name", categoryName);
+                    intent.putExtra("category_id", categoryId);
+                    intent.putExtra("display_mode", "other");
+                }
                 startActivity(intent);
             }
         });
