@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ParseException;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class ThreadActivity extends AppCompatActivity {
 
     FloatingActionButton newThread;
     Button refresh, backBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,55 +49,71 @@ public class ThreadActivity extends AppCompatActivity {
 
         TextView categoryHeader = findViewById(R.id.categoryHeader);
 
-        String categoryName = getIntent().getStringExtra("category_name");
-        int id=getIntent().getIntExtra("category_id",0);
-        categoryHeader.setText(categoryName+" Category");
-
-
-
         recyclerView = findViewById(R.id.threadsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
         threadList = new ArrayList<>();
-        fetchThreads(id);
-        adapter = new ThreadAdapter(threadList,this);
+        adapter = new ThreadAdapter(threadList, ThreadActivity.this);
         recyclerView.setAdapter(adapter);
 
-        newThread=findViewById(R.id.newThreadButton);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        final String userIdString = sharedPreferences.getString("userId", "defaultUserId");
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(userIdString);
+        } catch (NumberFormatException e) {
+            Log.e("ThreadActivity", "Failed to parse userId as int", e);
+        }
+
+        int categoryId = getIntent().getIntExtra("category_id", 0);
+        String displayMode = getIntent().getStringExtra("display_mode");
+        if ("my_threads".equals(displayMode)) {
+            categoryHeader.setText("My Threads");
+            fetchMyThreads(userId);
+        } else {
+            String categoryName = getIntent().getStringExtra("category_name");
+            categoryHeader.setText(categoryName + " Category");
+            fetchThreads(categoryId);
+        }
+
+        newThread = findViewById(R.id.newThreadButton);
         newThread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),NewThread.class);
-                intent.putExtra("category_id",id);
+                Intent intent = new Intent(getApplicationContext(), NewThread.class);
+                if (!"my_threads".equals(displayMode)) {
+                    intent.putExtra("category_id", categoryId);
+                }
                 startActivity(intent);
             }
         });
 
-        refresh=findViewById(R.id.refreshButton);
+        refresh = findViewById(R.id.refreshButton);
+        int finalUserId = userId;
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 threadList.clear();
-                fetchThreads(id);
+                if ("my_threads".equals(displayMode)) {
+                    fetchMyThreads(finalUserId);
+                } else {
+                    fetchThreads(categoryId);
+                }
             }
         });
 
         backBtn = findViewById(R.id.backButton);
-        // Set click listener for the back button
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed(); // Call onBackPressed() when the back button is clicked
+                onBackPressed();
             }
         });
     }
 
+
     @Override
     public void onBackPressed() {
-        // Handle back button press here
-        // Typically, you would want to navigate back to the previous activity
-        super.onBackPressed(); // This line ensures the default behavior of the back button (navigating back)
+        super.onBackPressed();
     }
 
 
@@ -135,6 +153,42 @@ public class ThreadActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+    private void fetchMyThreads(int userId) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://forum-node.vercel.app/myThreads?user_id=" + userId;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject obj = jsonArray.getJSONObject(i);
+                                String title = obj.getString("title");
+                                String userName = obj.getString("user_name");
+                                String threadTime = obj.getString("thread_time");
+                                int thread_id = obj.getInt("thread_id");
+
+                                ThreadItem thread = new ThreadItem(title, userName, threadTime, thread_id);
+                                threadList.add(thread);
+                            }
+                            Log.d("ThreadActivity", "Number of items in threadList: " + threadList.size());
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
     private String convertISOTimeToSimpleFormat(String isoTime) {
         SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -148,8 +202,5 @@ public class ThreadActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
-
 }
 
