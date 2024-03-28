@@ -48,14 +48,14 @@
         android:id="@+id/userInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="16dp"
         android:text="User Name"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/profileImageView"
         app:layout_constraintStart_toEndOf="@id/profileImageView"
         app:layout_constraintTop_toTopOf="@id/profileImageView"
-        app:layout_constraintVertical_bias="0.471" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <Button
         android:id="@+id/signOutButton"
